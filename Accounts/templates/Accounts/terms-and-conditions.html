@@ -1,0 +1,14 @@
+{% extends 'Accounts/base.html' %}
+
+{% block heading %} LivelyPencil {% endblock heading %}
+
+{% block content %}
+{% for data in terms_and_conditions%}
+ {% if data.heading %}
+ <h3>{{data.heading}}</h3>
+  {% else %}
+  <br>
+ {% endif %}
+ {{data.description}}<br>
+{% endfor %}
+{% endblock content %}

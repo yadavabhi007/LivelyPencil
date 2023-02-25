@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<!-- tab Top Section start Here -->
+
+
+<section class="all-edit-icon-main-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {% include 'logoimages.html' %}
+        <div class="tab-content all-tab-input-size-area">
+          <div class="">
+            <div class="text-write-main-area">
+              {% for data in content %}
+              <div class="text-save-main-area">
+                <span style="font-weight: bold;">Page Number:{{forloop.counter}}</span>
+                <a href="{% url 'deletePage' data.id %}" onclick="return confirm('Are You Sure')"
+                  class="btn btn-danger btn-sm" style="float: right;">
+                  <i class="bi bi-trash"></i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                    <path fill-rule="evenodd"
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                  </svg>
+                </a>
+                <form method="POST" id="new_page_add" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="div-edit  edittext" id="xyz{{data.pk}}" pk="{{data.id}}" contentEditable="true"
+                    name="msg-name-{{data.pk}}" oninput="myfunction('{{data.id}}')">
+                    {{data.text|default:""}}
+                    {% for img in data.image_id.all %}
+                    <img src="{{img.image.url}}" alt="" id="placehere" style="height: 100px; width: 80px;">
+                    {% endfor %}
+                    <!-- <div  >
+                      fddfjdshfhfdfhdsakjf
+                      <img src='http://192.168.1.30:8010/media/images/ankur_yRvkKo5.JPEG' width=100 height=100/>
+                    </div> 
+                    <div class="input-box-img-area" id="photo{{data.pk}}">
+                    </div>  -->
+                  </div>
+                </form>
+              </div>
+              <!-- {% for img in data.image_id.all %}
+              <script type="text/javascript">
+                (function () {
+                  var page_text = page_text = $('#xyz{{data.pk}}').text()
+                  console.log("mypagedata = ", page_text)
+                  //var text ="test http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG  cccccc gfgfgfgfgfg dfdfdfdfdf ghgghgh";
+                  var res = page_text.replace("{{img.image.url}}", "<img src='{{img.image.url}}' /> " );
+                  //console.log(res)
+                 document.getElementById("xyz{{data.pk}}").innerHTML=res;
+                })();
+              </script>
+              {% endfor %} -->
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- tab Top Section ends Here -->
+
+<!--
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script> -->
+<!-- add New Page -->
+
+<script>
+  $("#addpage_id").on('click', function () {
+    $('#new_page_add').on(function () {
+      var data_new_page = $(this).attr('new_page_add').text();
+      var book_id = document.getElementById("book_id");
+      console.log("blank", data_new_page)
+    });
+    $.ajax({
+      type: 'POST',
+      url: "",
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+      },
+      success: function () {
+        $('#add-new-page').modal('hide');
+        location.reload();
+      },
+    });
+  });
+</script>
+
+<!--  Update page Content  -->
+<script>
+  function myfunction(id) {
+    var pk = id;
+    var page_text = $('#xyz' + pk).text()
+    console.log("pk :", pk)
+    var id_ = (pk)
+    // $('#data_id').val(id_); 
+    $('#data_id').attr('uinque_id', pk);
+    $('#video_id').attr('uinque_id', pk);
+    $('#music_id').attr('uinque_id', pk);
+    //var data = $('#xyz' + pk).text().substring(0, 400);
+    console.log("data -", page_text)
+    $.ajax({
+      type: 'POST',
+      url: "update/" + pk,
+      data: {
+        'content': page_text,
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+      },
+      success: function (data) {
+      },
+    });
+  }
+</script>
+<!-- <script>
+  alert("hkj")
+  $("body").children().each(function () {
+    $(this).html( $(this).html().replace("http://192.168.1.30:8010/media/images/ankur_wwBU9yK.JPEG", "<img src='http://192.168.1.30:8010/media/images/ankur_xUKYfr0.JPEG' width=100 height=100/>") );
+});
+</script> -->
+<!-- <script type="text/javascript">
+  (function () {
+    var page_text = page_text = $('.div-edit').text()
+    // console.log("mypagedata = ", page_text)
+    var text = "test http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG  cccccc gfgfgfgfgfg dfdfdfdfdf ghgghgh";
+    var res = text.replace("http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG", "<img src='http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG' width=100 height=100/>");
+    console.log(res)
+    document.getElementById("xyz108").innerHTML = res;
+  })();
+</script> -->
+<!-- Delete Page  -->
+<!-- 
+ <script> 
+    $(".div-edit").keypress(function () {
+    var pk = $(this).attr('pk');
+    var id_ = (pk)
+    // $('#data_id').val(id_); 
+    var data = $('#xyz'+pk).text();
+    console.log("data -",data)
+    $.ajax({
+      type: 'GET',
+      url: "delete/"+pk,
+      data: {
+        'content': data,
+      },
+      success: function () {
+      },
+    });
+ });
+  </script>
+     -->
+{% endblock %}

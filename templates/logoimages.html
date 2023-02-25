@@ -1,0 +1,338 @@
+{% load static %}
+<style>
+  .hide {
+    display: none;
+  }
+
+  .myDIV:hover+.hide {
+    display: block;
+    color: red;
+  }
+</style>
+<div class="tab-content-main-area">
+  <ul class="nav nav-tabs" id="myTab">
+    <li class="nav-item">
+      <a href="#writing-icon" class="nav-link active" data-bs-toggle="tab">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/writing-icon-1.png' %}">
+        </div>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#div-close-icon" class="nav-link" data-bs-toggle="tab">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/div-close-icon.png' %}">
+        </div>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#picture-icon" class="nav-link" data-bs-toggle="modal" data-bs-target="#browser-file">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/picture-icon.png' %}">
+        </div>
+      </a>
+    </li>
+    <!-- Modal -->
+    <div class="choose-img-media-area">
+      <div class="modal fade" id="browser-file" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"
+                  aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="four-icon-main-area">
+                <div class="icon-box-main-area">
+                  <div class="icon-img-area">
+                    <img src="{% static 'images/camera-icon.png' %}">
+                  </div>
+                  <div class="icon-img-area">
+                    <img src="{% static 'images/folder-icon.png' %}">
+                  </div>
+                </div>
+                <div class="divder-line-main-area"></div>
+                <div class="icon-box-main-area">
+                  <div class="icon-img-area">
+                    <form method="POST" id="image_upload" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <label for="data_id" class="btn"> <img src="{% static 'images/picture-icon-2.png' %}"></label>
+                      <input type="file" class="fileUploader" onchange="fileUploader(event,this)" style="display: none;"
+                        id="data_id" name="upload_file" uinque_id="">
+                    </form>
+                  </div>
+                  <div class="icon-img-area">
+                    <img src="{% static 'images/draw-icon.png' %}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <li class="nav-item">
+      <div class="tab-icons-area">
+        <div class="tab-icons-area">
+          <form method="POST" id="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="music_id" class="btn"> <img src="{% static 'images/music-icon.png' %}"> </label>
+            <input type="file" class="musicfileUploader" uinque_id="" style="display: none;" id="music_id">
+          </form>
+        </div>
+    </li>
+    <li class="nav-item">
+      <div class="tab-icons-area">
+        <form method="POST" id="" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="video_id" class="btn"> <img src="{% static 'images/video-icon.png' %}">
+          </label>
+          <input type="file" class="videofileUploader" uinque_id="" style="display: none;" id="video_id">
+        </form>
+      </div>
+    </li>
+    <li class="nav-item">
+      <div class="tab-icons-area">
+        <label for="video_id" class="btn">
+          <img src="{% static 'images/double-inverted-comma.png' %}"> </label>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a href="#code-colse-icon" class="nav-link" data-bs-toggle="tab">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/code-colse-icon.png' %}">
+        </div>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#comment-icon" class="nav-link" data-bs-toggle="tab">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/comment-icon.png' %}">
+        </div>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#comment-icon" class="nav-link" data-bs-toggle="modal" data-bs-target="#add-new-page">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/add-icon.png' %}">
+        </div>
+      </a>
+    </li>
+    <!-- Modal -->
+    <div class="choose-img-media-area">
+      <div class="modal fade" id="add-new-page" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"
+                  aria-hidden="true"></i></button>
+            </div>
+            {% if total_page == 0 %}
+            <div class="modal-body">
+              <div class="add-icon-content-area" id="sidebar-collapses">
+                <h5>There is no place to add images to this page!</h5>
+                <i class="fa fa-plus-circle myDIV " id="addpage_id" onclick="add()" aria-hidden="true"></i>
+                <h5>Add to New Page</h5>
+              </div>
+            </div>
+            {% elif last_page.text is not None %}
+            <div class="modal-body">
+              <div class="add-icon-content-area" id="sidebar-collapses">
+                <h5>There is no place to add images to this page!</h5>
+                <i class="fa fa-plus-circle" id="addpage_id" onclick="add()" aria-hidden="true"></i>
+                <h5>Add to New Page</h5>
+              </div>
+            </div>
+            {% else %}
+            <div class="modal-body">
+              <div class="add-icon-content-area" id="sidebar-collapses">
+                <h5>Book Last Page Blank Plz Write Some Text ..!!</h5>
+              </div>
+            </div>
+            {% endif %}
+            <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <li class="nav-item">
+      <a href="#comment-icon" class="nav-link" data-bs-toggle="modal" data-bs-target="#delete-content">
+        <div class="tab-icons-area">
+          <img src="{% static 'images/eraser-icon.png' %}">
+        </div>
+      </a>
+    </li>
+    <!-- Modal -->
+    <div class="choose-img-media-area">
+      <div class="modal fade" id="delete-content" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"
+                  aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="delete-content-main-area">
+                <h5>Are you sure?</h5>
+                <a href="#">Yes</a><a href="#">No</a>
+              </div>
+            </div>
+            <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </ul>
+</div>
+<script>
+  var formData = new FormData();
+  function fileUploader(e, th) {
+    console.log(e.target.files[0]);
+    var file_name = (e.target.files[0]);
+    // console.log("file name ", file_name)
+    var uinque_id = $(th).attr('uinque_id');
+    // console.log("file uinque_id ", uinque_id)
+    var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    // console.log(token)  
+    formData.append('file_name', file_name),
+      formData.append('uinque_id', uinque_id),
+      formData.append('csrfmiddlewaretoken', csrfToken)
+    var x = URL.createObjectURL(e.target.files[0]);
+    console.log("ankur", x)
+    console.log("xyz108");
+    $.ajax({
+      type: "POST",
+      url: "/upload/" + uinque_id,
+      data: formData,
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: function (data) {
+        console.log(data)
+        $('#photo' + uinque_id).html('<img width="100" height="50" src="' + data.url + '">')
+        $('#add-new-page').modal('hide');
+        location.reload();
+      },
+      failure: function () {
+        alert("not save")
+      }
+    })
+  }
+</script>
+<script language="javascript" type="text/javascript">
+  var formData = new FormData();
+  $(".fileUploaders").on("change", function (e) {
+    var file_name = (e.target.files[0]);
+    // console.log("file name ", file_name)
+    var uinque_id = $(this).attr('uinque_id');
+    // console.log("file uinque_id ", uinque_id)
+    var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    // console.log(token)  
+    formData.append('file_name', file_name),
+      formData.append('uinque_id', uinque_id),
+      formData.append('csrfmiddlewaretoken', csrfToken)
+    var x = URL.createObjectURL(e.target.files[0]);
+    console.log("ankur", x)
+    $.ajax({
+      type: "POST",
+      url: "/upload/" + uinque_id,
+      data: formData,
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: function (data) {
+        console.log(data)
+        $('#photo' + uinque_id).html('<img width="100" height="50" src="' + data.url + '">')
+        $('#add-new-page').modal('hide');
+        location.reload();
+      },
+      failure: function () {
+        alert("not save")
+      }
+    })
+  })
+</script>
+
+<!-- video Upload script  -->
+
+<script language="javascript" type="text/javascript">
+  var formData = new FormData();
+  $(".videofileUploader").on("change", function (e) {
+    var file_name = (e.target.files[0]);
+    console.log("file name ", file_name)
+    var uinque_id = $(this).attr('uinque_id');
+    console.log("file uinque_id ", uinque_id)
+    var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    // console.log(token)  
+    formData.append('file_name', file_name),
+      formData.append('uinque_id', uinque_id),
+      formData.append('csrfmiddlewaretoken', csrfToken)
+    var x = URL.createObjectURL(e.target.files[0]);
+    console.log("ankur", x)
+    $.ajax({
+      type: "POST",
+      url: "/video-upload/" + uinque_id,
+      data: formData,
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: function (data) {
+        $('#video' + uinque_id).html('<video width="320" height="240" controls> <source src="' + data.url + '" type="video/mp4"></video>')
+        location.reload();
+        $('.four-icon-main-area').modal('hide');
+      },
+      failure: function () {
+        alert("not save")
+      }
+    });
+  });
+</script>
+
+
+<!-- Music Upload script -->
+
+<script language="javascript" type="text/javascript">
+  var formData = new FormData();
+  $(".musicfileUploader").on("change", function (e) {
+    var file_name = (e.target.files[0]);
+    // console.log("file name ", file_name)
+    var uinque_id = $(this).attr('uinque_id');
+    alert(uinque_id)
+    // console.log("file uinque_id ", uinque_id)
+    var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    // console.log(token)  
+    formData.append('file_name', file_name),
+      formData.append('uinque_id', uinque_id),
+      formData.append('csrfmiddlewaretoken', csrfToken)
+    var x = URL.createObjectURL(e.target.files[0]);
+    console.log("ankur", x)
+    $.ajax({
+      type: "POST",
+      url: "/music-upload/" + uinque_id,
+      data: formData,
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: function (data) {
+        console.log(data)
+        // $('#photo' + uinque_id).html('<img width="100" height="50" src="' + data.url + '">')
+      },
+      failure: function () {
+        alert("not save")
+      }
+    })
+  })
+</script>

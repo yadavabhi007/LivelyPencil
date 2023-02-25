@@ -1,0 +1,56 @@
+{% include 'reader-header.html' %}
+{% block content %}
+{% load static %}
+{% if total_page != 0 %}
+<section class="all-edit-icon-main-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="tab-content all-tab-input-size-area">
+          <div class="">
+            {% for data in content %}
+            <div class="reader-info-main-area">
+              <span>Page: {{forloop.counter}} / {{total_page}}</span>
+              <div class="reader-info-text-area ">
+                <div class="div-edit  edittext" contentEditable="false" name="msg-name-{{data.pk}}"
+                  style="border: solid #1977aa;">
+                  <div class="reader-text-show-info">
+                    {{data.text|default:""}}
+                  </div>
+                  {% for img in data.image_id.all %}
+                  <img src="{{img.image.url}}" alt="" style="height: 100px; width: 80px;">
+                  {% endfor %}
+                  <div class="input-box-img-area" id="photo{{data.pk}}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="all-edit-icon-main-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="tab-content all-tab-input-size-area">
+          <div class="">
+            <div class="reader-info-main-area">
+              <div class="reader-info-text-area">
+                <p style="text-align: center;">Total Book Page: 0 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+<!-- tab Top Section ends Here -->
+{% endblock %}
+{% include 'footer.html' %}
