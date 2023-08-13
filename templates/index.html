@@ -34,27 +34,9 @@
                     {% for img in data.image_id.all %}
                     <img src="{{img.image.url}}" alt="" id="placehere" style="height: 100px; width: 80px;">
                     {% endfor %}
-                    <!-- <div  >
-                      fddfjdshfhfdfhdsakjf
-                      <img src='http://192.168.1.30:8010/media/images/ankur_yRvkKo5.JPEG' width=100 height=100/>
-                    </div> 
-                    <div class="input-box-img-area" id="photo{{data.pk}}">
-                    </div>  -->
                   </div>
                 </form>
               </div>
-              <!-- {% for img in data.image_id.all %}
-              <script type="text/javascript">
-                (function () {
-                  var page_text = page_text = $('#xyz{{data.pk}}').text()
-                  console.log("mypagedata = ", page_text)
-                  //var text ="test http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG  cccccc gfgfgfgfgfg dfdfdfdfdf ghgghgh";
-                  var res = page_text.replace("{{img.image.url}}", "<img src='{{img.image.url}}' /> " );
-                  //console.log(res)
-                 document.getElementById("xyz{{data.pk}}").innerHTML=res;
-                })();
-              </script>
-              {% endfor %} -->
               {% endfor %}
             </div>
           </div>
@@ -62,11 +44,7 @@
       </div>
     </div>
 </section>
-<!-- tab Top Section ends Here -->
 
-<!--
-<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script> -->
-<!-- add New Page -->
 
 <script>
   $("#addpage_id").on('click', function () {
@@ -114,41 +92,4 @@
     });
   }
 </script>
-<!-- <script>
-  alert("hkj")
-  $("body").children().each(function () {
-    $(this).html( $(this).html().replace("http://192.168.1.30:8010/media/images/ankur_wwBU9yK.JPEG", "<img src='http://192.168.1.30:8010/media/images/ankur_xUKYfr0.JPEG' width=100 height=100/>") );
-});
-</script> -->
-<!-- <script type="text/javascript">
-  (function () {
-    var page_text = page_text = $('.div-edit').text()
-    // console.log("mypagedata = ", page_text)
-    var text = "test http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG  cccccc gfgfgfgfgfg dfdfdfdfdf ghgghgh";
-    var res = text.replace("http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG", "<img src='http://192.168.1.30:8030/media/images/ankur_v3k3cIB.JPEG' width=100 height=100/>");
-    console.log(res)
-    document.getElementById("xyz108").innerHTML = res;
-  })();
-</script> -->
-<!-- Delete Page  -->
-<!-- 
- <script> 
-    $(".div-edit").keypress(function () {
-    var pk = $(this).attr('pk');
-    var id_ = (pk)
-    // $('#data_id').val(id_); 
-    var data = $('#xyz'+pk).text();
-    console.log("data -",data)
-    $.ajax({
-      type: 'GET',
-      url: "delete/"+pk,
-      data: {
-        'content': data,
-      },
-      success: function () {
-      },
-    });
- });
-  </script>
-     -->
 {% endblock %}

@@ -211,8 +211,6 @@
       formData.append('uinque_id', uinque_id),
       formData.append('csrfmiddlewaretoken', csrfToken)
     var x = URL.createObjectURL(e.target.files[0]);
-    console.log("ankur", x)
-    console.log("xyz108");
     $.ajax({
       type: "POST",
       url: "/upload/" + uinque_id,
@@ -245,7 +243,6 @@
       formData.append('uinque_id', uinque_id),
       formData.append('csrfmiddlewaretoken', csrfToken)
     var x = URL.createObjectURL(e.target.files[0]);
-    console.log("ankur", x)
     $.ajax({
       type: "POST",
       url: "/upload/" + uinque_id,
@@ -281,7 +278,6 @@
       formData.append('uinque_id', uinque_id),
       formData.append('csrfmiddlewaretoken', csrfToken)
     var x = URL.createObjectURL(e.target.files[0]);
-    console.log("ankur", x)
     $.ajax({
       type: "POST",
       url: "/video-upload/" + uinque_id,
@@ -318,7 +314,6 @@
       formData.append('uinque_id', uinque_id),
       formData.append('csrfmiddlewaretoken', csrfToken)
     var x = URL.createObjectURL(e.target.files[0]);
-    console.log("ankur", x)
     $.ajax({
       type: "POST",
       url: "/music-upload/" + uinque_id,
